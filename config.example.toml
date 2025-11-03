@@ -60,3 +60,13 @@ not_found_recover_text = "« back to home »"
 reaction = false # Whether to enable anonymous emoji reactions (Note: You need to set up a working api endpoint to enable this feature)
 reaction_align = "right" # "left" | "center" | "right"
 reaction_endpoint = "https://example.com/api/reaction"
+
+[extra.opengraph]
+enable = false # Whether to render OpenGraph meta tags
+site_name = "xxxx" # Optional override for og:site_name, defaults to "title"
+default_type = "website" # Default og:type when not overridden by content
+# title = "xxxx" # Optional site-wide override for og:title
+# description = "xxxx xxxx xxxx" # Optional site-wide override for og:description
+# default_image = "img/og-image.png" # Optional default OpenGraph image path (relative to the static directory)
+default_image_alt = "xxxx" # Alternative text used for the default OpenGraph image
+# locale = "en_US" # Optional locale identifier for og:locale

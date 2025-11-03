@@ -311,6 +311,37 @@ After you setup your endpoint, set `reaction_endpoint = "<your-endpoint>"` and `
 
 Giscus also support a reaction feature, but it requires visitors to log in to GitHub, you can disable it in giscus's settings.
 
+## OpenGraph
+
+Serene can render OpenGraph meta tags for richer previews when your pages are shared.
+
+Enable it in `config.toml`:
+
+```toml
+[extra.opengraph]
+enable = true
+site_name = "My Blog"
+default_type = "website"
+# default_image = "img/og-image.png"
+default_image_alt = "My Blog logo"
+# locale = "en_US"
+```
+
+All fields are optional except `enable`. `site_name` defaults to `title`, `default_type` defaults to `website`, and `default_image` can point to an image inside the `static` directory or an absolute URL.
+
+You can override OpenGraph values per page or per section in front matter:
+
+```toml
+[extra.opengraph]
+title = "Custom Page Title"
+description = "A different description just for social previews."
+type = "article"
+image = "img/posts/custom-og.png"
+image_alt = "Custom cover"
+```
+
+For posts, the theme automatically falls back to the summary, description, or section description when an explicit OpenGraph description is not provided.
+
 ## Codeblock
 
 Zola supports some [annotations for code blocks](https://www.getzola.org/documentation/content/syntax-highlighting/#annotations).

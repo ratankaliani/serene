@@ -1,0 +1,136 @@
+{% if config.extra.opengraph is defined %}
+  {% set opengraph_cfg = config.extra.opengraph %}
+  {% if opengraph_cfg.enable | default(value=false) %}
+    {% set site_name = opengraph_cfg.site_name | default(value=config.title) %}
+    {% set og_title = opengraph_cfg.title | default(value=config.title) %}
+    {% set og_description = opengraph_cfg.description | default(value=config.description) %}
+    {% set og_type = opengraph_cfg.default_type | default(value="website") %}
+    {% set og_locale = opengraph_cfg.locale | default(value="") %}
+    {% set image_path = opengraph_cfg.default_image | default(value="") %}
+    {% set image_alt = opengraph_cfg.default_image_alt | default(value=site_name) %}
+
+    {% if page is defined %}
+      {% set page_og = {} %}
+      {% if page.extra.opengraph is defined %}
+        {% set page_og = page.extra.opengraph %}
+      {% endif %}
+
+      {% if page_og.title is defined %}
+        {% set og_title = page_og.title %}
+      {% else %}
+        {% set og_title = page.title %}
+      {% endif %}
+
+      {% if page_og.description is defined %}
+        {% set og_description = page_og.description %}
+      {% else %}
+        {% if page.summary %}
+          {% set og_description = page.summary %}
+        {% elif page.description %}
+          {% set og_description = page.description %}
+        {% elif page.extra is defined and page.extra.summary is defined %}
+          {% set og_description = page.extra.summary %}
+        {% elif section is defined and section.description %}
+          {% set og_description = section.description %}
+        {% endif %}
+      {% endif %}
+
+      {% if page_og.type is defined %}
+        {% set og_type = page_og.type %}
+      {% else %}
+        {% set og_type = "article" %}
+      {% endif %}
+
+      {% if page_og.image is defined %}
+        {% set image_path = page_og.image %}
+      {% elif page.extra is defined and page.extra.image is defined %}
+        {% set image_path = page.extra.image %}
+      {% endif %}
+
+      {% if page_og.image_alt is defined %}
+        {% set image_alt = page_og.image_alt %}
+      {% elif page.extra is defined and page.extra.image_alt is defined %}
+        {% set image_alt = page.extra.image_alt %}
+      {% endif %}
+    {% elif section is defined %}
+      {% set section_og = {} %}
+      {% if section.extra.opengraph is defined %}
+        {% set section_og = section.extra.opengraph %}
+      {% endif %}
+
+      {% if section_og.title is defined %}
+        {% set og_title = section_og.title %}
+      {% elif section.title %}
+        {% set og_title = section.title %}
+      {% endif %}
+
+      {% if section_og.description is defined %}
+        {% set og_description = section_og.description %}
+      {% elif section.description %}
+        {% set og_description = section.description %}
+      {% endif %}
+
+      {% if section_og.type is defined %}
+        {% set og_type = section_og.type %}
+      {% endif %}
+
+      {% if section_og.image is defined %}
+        {% set image_path = section_og.image %}
+      {% elif section.extra is defined and section.extra.image is defined %}
+        {% set image_path = section.extra.image %}
+      {% endif %}
+
+      {% if section_og.image_alt is defined %}
+        {% set image_alt = section_og.image_alt %}
+      {% elif section.extra is defined and section.extra.image_alt is defined %}
+        {% set image_alt = section.extra.image_alt %}
+      {% endif %}
+    {% elif term is defined %}
+      {% set og_title = term.name %}
+      {% set og_description = term.name %}
+    {% elif taxonomy is defined %}
+      {% set og_title = taxonomy.name | capitalize %}
+      {% set og_description = taxonomy.name | capitalize %}
+    {% endif %}
+
+    {% set og_url = config.base_url %}
+    {% if current_url is defined %}
+      {% set og_url = current_url %}
+    {% endif %}
+
+    {% set og_image = "" %}
+    {% if image_path %}
+      {% if image_path is matching("^https?://") %}
+        {% set og_image = image_path %}
+      {% else %}
+        {% set image_clean_path = image_path | trim_start_matches(pat="/") %}
+        {% set og_image = get_url(path=image_clean_path) %}
+      {% endif %}
+    {% endif %}
+
+    <meta property="og:type" content="{{ og_type }}">
+    <meta property="og:title" content="{{ og_title | striptags | trim }}">
+    {% if og_description %}
+    <meta property="og:description" content="{{ og_description | striptags | trim }}">
+    {% endif %}
+    <meta property="og:url" content="{{ og_url }}">
+    <meta property="og:site_name" content="{{ site_name | striptags | trim }}">
+    {% if og_locale %}
+    <meta property="og:locale" content="{{ og_locale }}">
+    {% endif %}
+    {% if og_image %}
+    <meta property="og:image" content="{{ og_image }}">
+      {% if image_alt %}
+    <meta property="og:image:alt" content="{{ image_alt | striptags | trim }}">
+      {% endif %}
+    {% endif %}
+    {% if page is defined %}
+      {% if page.date %}
+    <meta property="article:published_time" content="{{ page.date | date(format="%Y-%m-%dT%H:%M:%S%:z", timezone="UTC") }}">
+      {% endif %}
+      {% if page.updated %}
+    <meta property="article:modified_time" content="{{ page.updated | date(format="%Y-%m-%dT%H:%M:%S%:z", timezone="UTC") }}">
+      {% endif %}
+    {% endif %}
+  {% endif %}
+{% endif %}
