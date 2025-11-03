@@ -99,6 +99,12 @@
             {% endif -%}
           </div>
 
+          {% if config.extra.show_post_stats is defined and config.extra.show_post_stats %}
+          <div id="stats">
+            <span>{{ page.reading_time }} min read &bull; {{ page.word_count }} words</span>
+          </div>
+          {% endif %}
+
           {% if page.taxonomies.tags is defined %}
           <div id="tags">
             {% for tag in page.taxonomies.tags -%}

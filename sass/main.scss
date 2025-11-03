@@ -1376,6 +1376,11 @@ body.post {
       }
     }
 
+    #stats {
+      margin-bottom: 1em;
+      color: var(--text-pale-color);
+    }
+
     #tags {
       margin-bottom: 1em;
       display: flex;

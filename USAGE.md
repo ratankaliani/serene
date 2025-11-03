@@ -251,6 +251,10 @@ Set `outdate_alert` and `outdate_alert_days` to enable the alert.
 
 In `myblog/content/posts/_index.md`, options `outdate_alert_text_before` and `outdate_alert_text_after` are the text content of the alert.
 
+## Reading Time & Word Count
+
+Set `show_post_stats = true` in the `[extra]` section of `config.toml` to display the estimated reading time and total word count next to the publish date on post pages.
+
 ## Comment
 
 You can use [giscus](https://giscus.app) as the comment system.
